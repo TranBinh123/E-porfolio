@@ -4,15 +4,26 @@
    ========================================================== */
 
 :root {
-  --bg: #F3F4F1;
-  --surface: #FBFBF9;
-  --ink: #1C2024;
-  --muted: #666C72;
-  --line: #DFE1DC;
-  --accent: #2E4BD6;
-  --accent-dark: #2340BC;
-  --accent-ink: #FFFFFF;
-  --accent-soft: #E4E8FA;
+  /* Brand palette (the three colours you chose) */
+  --blue: #329DD2;   /* primary accent: buttons, shapes, highlights */
+  --bg: #F8FAFC;     /* page background */
+  --red: #EB2F33;    /* secondary accent: use sparingly, large elements only */
+
+  /* Derived neutrals and shades for readable text */
+  --surface: #FFFFFF;
+  --ink: #16202A;        /* 15.7:1 on bg */
+  --muted: #5B6670;      /* 5.6:1 on bg */
+  --line: #E2E8F0;
+  --blue-text: #1C6F9C;  /* blue for small text/links: 5.3:1 on bg */
+  --blue-dark: #1C6F9C;  /* hover state, white text 5.5:1 */
+  --blue-soft: #DCEEF8;
+  --red-soft: #FCE8E9;
+
+  /* Roles used by the components below */
+  --accent: var(--blue);
+  --accent-dark: var(--blue-dark);
+  --accent-ink: var(--ink);        /* dark text on the light-blue button */
+  --accent-soft: var(--blue-soft);
 
   --gutter: clamp(20px, 5vw, 48px);
   --max: 1120px;
@@ -41,7 +52,7 @@ body {
 a { color: inherit; }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--blue-text);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -91,7 +102,7 @@ nav a {
   font-weight: 500;
   transition: color .2s ease;
 }
-nav a:hover { color: var(--accent); }
+nav a:hover { color: var(--blue-text); }
 
 /* ---------- Hero ---------- */
 .hero {
@@ -107,10 +118,10 @@ nav a:hover { color: var(--accent); }
   line-height: 0.95;
   letter-spacing: -0.045em;
 }
-.hero h1 .dot { color: var(--accent); }
+.hero h1 .dot { color: var(--red); }
 .hero .role {
   margin: 0 0 20px;
-  color: var(--accent);
+  color: var(--blue-text);
   font-weight: 500;
   font-size: 1.05rem;
 }
@@ -134,8 +145,9 @@ nav a:hover { color: var(--accent); }
 }
 .btn:hover {
   background: var(--accent-dark);
+  color: #FFFFFF;
   transform: translateY(-2px);
-  box-shadow: 0 10px 24px -10px rgba(46, 75, 214, .55);
+  box-shadow: 0 10px 24px -10px rgba(50, 157, 210, .6);
 }
 .btn:active { transform: translateY(0); }
 
@@ -284,7 +296,7 @@ footer .lede {
   margin-top: 14px;
   padding-top: 14px;
   border-top: 1px solid var(--line);
-  color: var(--accent);
+  color: var(--blue-text);
   font-size: 0.9rem;
   font-weight: 500;
 }
@@ -317,4 +329,15 @@ footer .lede {
 @media (max-width: 639px) {
   .client-list { grid-template-columns: repeat(2, 1fr); }
   .clients { padding-bottom: 96px; }
+}
+
+/* ---------- Red accent bar under section headings ---------- */
+.section-head h2::after {
+  content: "";
+  display: block;
+  width: 44px;
+  height: 4px;
+  margin-top: 16px;
+  border-radius: 2px;
+  background: var(--red);
 }
