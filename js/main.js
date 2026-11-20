@@ -59,14 +59,24 @@
     return;
   }
 
+  function show(el) {
+    el.classList.add('in');
+    io.unobserve(el);
+  }
+
+  // Reveal a little BEFORE an element reaches the viewport, and also reveal
+  // anything the reader has already scrolled past (e.g. after jumping to #contact),
+  // so no content is ever left invisible.
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in');
-        io.unobserve(entry.target);
-      }
+      if (entry.isIntersecting || entry.boundingClientRect.top < 0) show(entry.target);
     });
-  }, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
+  }, { threshold: 0, rootMargin: '0px 0px 18% 0px' });
+
+  // Printing or exporting the page: show everything
+  window.addEventListener('beforeprint', function () {
+    items.forEach(function (el) { el.classList.add('in'); });
+  });
 
   items.forEach(function (el) { io.observe(el); });
 })();
