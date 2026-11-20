@@ -17,6 +17,19 @@
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
+
+  // Highlight the nav link of the section currently in view
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('nav a[href^="#"]'));
+  var sections = navLinks.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  function spy() {
+    var y = window.scrollY + header.offsetHeight + 120, current = 0;
+    sections.forEach(function (sec, i) { if (sec && sec.offsetTop <= y) current = i; });
+    var atTop = window.scrollY < 40;
+    navLinks.forEach(function (a, i) { a.classList.toggle('active', !atTop && i === current || atTop && i === 0); });
+  }
+  spy();
+  window.addEventListener('scroll', spy, { passive: true });
+
   // Smooth scroll for in-page links (also moves focus for keyboard users)
   document.querySelectorAll('a[href^="#"]').forEach(function (link) {
     link.addEventListener('click', function (e) {
