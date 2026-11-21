@@ -92,6 +92,7 @@ header.site .wrap {
   align-items: center;
   gap: 16px;
   text-decoration: none;
+  white-space: nowrap;
   font-weight: 600;
   font-size: 1.05rem;
   letter-spacing: -0.01em;
@@ -107,6 +108,7 @@ nav ul {
   padding: 0;
 }
 nav a {
+  white-space: nowrap;
   position: relative;
   display: inline-block;
   padding: 6px 0;
@@ -157,7 +159,8 @@ nav a.active { color: var(--blue-text); }
 .hero {
   position: relative;
   /* capped so tools that stretch the viewport to full page height don't blow up the hero */
-  min-height: min(calc(100svh - var(--header-h)), 740px);
+  min-height: calc(100vh - var(--header-h));
+  min-height: calc(100svh - var(--header-h));
   display: flex;
   align-items: center;
   padding: 56px 0 120px;
@@ -166,11 +169,12 @@ nav a.active { color: var(--blue-text); }
 }
 .hero-bg { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
 .hero-bg svg { position: absolute; display: block; }
-.hero-bg .blob-top   { top: -140px; left: 38%; width: 520px; }
-.hero-bg .blob-left  { top: 22%; left: -150px; width: 300px; }
-.hero-bg .dots       { top: 28px; left: 12px; width: 130px; }
-.hero-bg .arc-red    { bottom: -60px; left: -70px; width: 260px; }
-.hero-bg .wave       { bottom: 0; right: 0; width: min(78%, 1100px);
+.hero-bg .blob-top   { top: -22%; left: 38%; width: clamp(320px, 36vw, 760px); }
+.hero-bg .blob-left  { top: 22%; left: -9%; width: clamp(200px, 21vw, 440px); }
+.hero-bg .dots       { top: 28px; left: 12px; width: clamp(90px, 9vw, 170px); }
+.hero-bg .arc-red    { bottom: -5%; left: -5%; width: clamp(170px, 18vw, 400px); }
+/* wave stretches to the hero's width and a share of its height, so it always sits on the bottom edge */
+.hero-bg .wave       { bottom: 0; right: 0; width: 80%; height: clamp(170px, 34%, 440px);
   -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 28%);
   mask-image: linear-gradient(90deg, transparent 0, #000 28%); }
 
@@ -181,7 +185,9 @@ nav a.active { color: var(--blue-text); }
   gap: 24px;
 }
 .badge {
-  display: inline-flex;
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
   align-items: center;
   gap: 10px;
   margin: 0 0 22px;
@@ -202,7 +208,8 @@ nav a.active { color: var(--blue-text); }
 .badge .spark svg { width: 16px; height: 16px; }
 .hero h1 {
   position: relative;
-  display: inline-block;
+  display: block;
+  width: fit-content;
   margin: 0 0 30px;
   font-size: clamp(3rem, 7.2vw, 6.4rem);
   white-space: nowrap;
@@ -257,17 +264,27 @@ nav a.active { color: var(--blue-text); }
 .hero-art { position: relative; justify-self: end; width: 100%; max-width: 560px; }
 .hero-art svg { display: block; width: 100%; height: auto; overflow: visible; }
 
+/* wide landscape screens: fill the screen, but never grow with a stretched viewport */
+@media (min-width: 901px) {
+  .hero { min-height: min(calc(100svh - var(--header-h)), max(64vw, 720px)); }
+}
 @media (max-width: 900px) {
-  .hero { padding: 40px 0 96px; }
-  .hero .wrap { grid-template-columns: 1fr; gap: 24px; }
+  .nav-right { gap: 20px; }
+  nav ul { gap: 20px; }
+  .hero { padding: 40px 0 150px; }
+  .hero .wrap { grid-template-columns: 1fr; gap: 28px; }
+  .hero h1 { font-size: clamp(3rem, 11vw, 5rem); }
   .hero-art { justify-self: center; max-width: 440px; }
   .hero-bg .blob-top { left: 20%; }
-  .hero-bg .wave { width: 120%; }
+  .hero-bg .wave { width: 100%; height: clamp(130px, 22%, 200px); }
   .cta-row .ticks { display: none; }
 }
 @media (max-width: 720px) {
   nav { display: none; }
+}
+@media (max-width: 480px) {
   .brand .sep, .brand .name-full { display: none; }
+  .hero { padding-bottom: 130px; }
 }
 
 /* ---------- Projects ---------- */
